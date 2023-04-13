@@ -1,20 +1,16 @@
 import pandas as pd
 import numpy as np
-import scipy
+from statsmodels.stats.proportion import proportions_ztest
 
+chat_id = 123456 # Ваш chat ID, не меняйте название переменной
 
-chat_id = 1022895883 # Ваш chat ID, не меняйте название переменной
-
-def solution(x_success: int, 
+# True if H0 is rejected
+# Interval estimation
+def solutionPropZTest(x_success: int, 
              x_cnt: int, 
              y_success: int, 
              y_cnt: int) -> bool:
-    alpha = 0.01
+    alpha = 0.05
 
-    hx = x_success / x_cnt
-    hy = y_success / y_cnt
-    h = (x_cnt * hx + y_cnt * hy) / (x_cnt + y_cnt)
-
-    z_alpha = scipy.stats.norm.ppf(1- alpha)
-    u = hy - hx - z_alpha * (hx*(1 - hx)/x_cnt + hy*(1 - hy)/y_cnt)**0.5
-    return u > 0
+    p_value = proportions_ztest([x_success, y_success], [x_cnt, y_cnt], alternative='larger')[1]
+    return p_value < alpha
