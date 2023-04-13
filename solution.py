@@ -17,4 +17,4 @@ def solution(x_success: int,
 
     z_alpha = scipy.stats.norm.ppf(1- alpha)
     u = hy - hx - z_alpha * (hx*(1 - hx)/x_cnt + hy*(1 - hy)/y_cnt)**0.5
-    return u < 0
+    return u > 0
